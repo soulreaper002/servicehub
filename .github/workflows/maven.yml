@@ -16,8 +16,14 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      common-util:
+        image: soulreaper002/common-util-new:latest
+        ports:
+          - 8080:8080
+        options: --name common-util-container
 
     steps:
     - uses: actions/checkout@v3
@@ -29,6 +35,19 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
+
+      env:
+        COMMON_UTIL_URL: http://common-util-container:8080
+
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: soulreaper002/servicehub-ms-new
+        tags: latest
+        registry: docker.io
+        dockerfile: Dockerfile
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
