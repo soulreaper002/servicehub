@@ -54,6 +54,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>servicehub-ms-new</finalName>
 	</build>
 
 </project>
