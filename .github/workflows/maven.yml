@@ -30,9 +30,8 @@ jobs:
       run: mvn clean install
 
     - name: Set up Docker
-      uses: actions/setup-docker@v2
-      with:
-        dockerfile: Dockerfile
+      uses: docker/setup-qemu-action@v2
+
 
     - name: Build and push Docker image for common-ms
       env:
