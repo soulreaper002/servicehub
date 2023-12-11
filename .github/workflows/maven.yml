@@ -15,7 +15,7 @@ on:
 
 jobs:
   call-Util-workflow:
-          uses: soulreaper002/common-util/.github/workflows/maven.yml@dev
+          uses: soulreaper002/common-util/.github/workflows/maven.yml@main
 
   build-service:
     runs-on: ubuntu-latest
