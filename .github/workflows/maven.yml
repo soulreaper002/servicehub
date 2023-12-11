@@ -25,10 +25,11 @@ jobs:
               with:
                 repository: soulreaper002/common-util
                 ref: dev  # Specify the branch/tag/commit you want to build
-
+                run: ls
+                
             - name: Build common-util
               run: |
-                cd common-util
+                cd ../../common-util
                 mvn clean install
 
   build-service:
