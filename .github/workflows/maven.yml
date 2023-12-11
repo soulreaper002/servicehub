@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+            - name: List Repository Contents
+              run: ls
             - name: Checkout common-util
               uses: actions/checkout@v2
               with:
