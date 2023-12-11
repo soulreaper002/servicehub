@@ -26,23 +26,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+
+    - name: checkout common-lib
+      uses: actions/checkout@v2
+      with:
+        repository: soulreaper002/common-util
+    - name: Build common-lib
+      run: |
+        cd common-util
+        mvn clean install
+        
     - name: Build with Maven
       run: mvn clean install
-
-    - name: Set up Docker
-      uses: docker/setup-qemu-action@v2
-
-
-    - name: Build and push Docker image for common-ms
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        docker build -t soulreaper002/common-util-new:latest -f path/to/common-util-new/Dockerfile .
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        docker push soulreaper002/common-util-new:latest
-
-
+   
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
