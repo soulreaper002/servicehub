@@ -14,26 +14,8 @@ on:
 
 
 jobs:
-  build-common-util:
-    runs-on: ubuntu-latest
-    
-    steps:
-            - name: List Repository Contents
-              run: ls
-            - name: Checkout common-util
-              uses: actions/checkout@v2
-              with:
-                repository: soulreaper002/common-util
-                ref: dev  # Specify the branch/tag/commit you want to build
-            - name: list dir
-              run: |
-                ls
-                pwd
-                
-            - name: Build common-util
-              run: |
-                cd /usr/bin/common-util
-                mvn clean install
+  call-Util-workflow:
+          uses: soulreaper002/common-util/.github/workflows/maven.yml@dev
 
   build-service:
     runs-on: ubuntu-latest
