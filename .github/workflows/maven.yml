@@ -11,43 +11,44 @@ name: servicehub-ms
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+
 
 jobs:
-  build:
+  build-common-util:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+            - name: Checkout common-util
+              uses: actions/checkout@v2
+              with:
+                repository: soulreaper002/common-util
+                ref: dev  # Specify the branch/tag/commit you want to build
 
-    - name: checkout common-lib
-      uses: actions/checkout@v2
-      with:
-        repository: soulreaper002/common-util
-    - name: Build common-lib
-      run: |
-        cd common-util
-        mvn clean install
+            - name: Build common-util
+              run: |
+                cd common-util
+                mvn clean install
+
+  build-service:
+    runs-on: ubuntu-latest
         
-    - name: Build with Maven
-      run: mvn clean install
-   
-    - name: Build & push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: soulreaper002/servicehub-ms-new
-        tags: latest
-        registry: docker.io
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    steps:
+          - name: Checkout Your Project
+            uses: actions/checkout@v2
+        
+          - name: Build project
+            run: |
+                mvn clean install
+                
+          - name: Build & push Docker image
+            uses: mr-smithers-excellent/docker-build-push@v6
+            with:
+                image: soulreaper002/servicehub-ms-new
+                tags: latest
+                registry: docker.io
+                dockerfile: Dockerfile
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
